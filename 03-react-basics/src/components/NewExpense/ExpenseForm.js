@@ -5,6 +5,7 @@ const ExpenseForm = (props) => {
   const [entertedTitle, setEntertedTitle] = useState('');
   const [entertedAmount, setEntertedAmount] = useState('');
   const [entertedDate, setEntertedDate] = useState('');
+  const [showExpenseForm, setShowExpenseForm] = useState(false);
 
   // const [userInput, setUserInput] = useState({
   //   entertedAmount: '',
@@ -47,52 +48,70 @@ const ExpenseForm = (props) => {
     event.preventDefault();
     const expenseData = {
       title: entertedTitle,
-      amount: entertedAmount,
+      amount: +entertedAmount,
       date: new Date(entertedDate),
     };
     props.onSaveExpenseData(expenseData);
     setEntertedTitle('');
     setEntertedAmount('');
     setEntertedDate('');
+    toggleShowExpense();
   };
 
-  return (
-    <form onSubmit={submitHandler}>
-      <div className='new-expense__controls'>
-        <div className='new-expense__control'>
-          <label>Title</label>
-          <input
-            type='text'
-            onChange={titleChangeHandler}
-            value={entertedTitle}
-          />
-        </div>
-        <div className='new-expense__control'>
-          <label>Date</label>
-          <input
-            type='date'
-            min='2019-01-01'
-            max='2022-12-31'
-            value={entertedDate}
-            onChange={dateChangeHandler}
-          />
-        </div>
-        <div className='new-expense__control'>
-          <label>Amount</label>
-          <input
-            type='number'
-            min='0.01'
-            step='0.01'
-            value={entertedAmount}
-            onChange={amountChangeHandler}
-          />
-        </div>
-      </div>
-      <div className='new-expense__actions'>
-        <button type='submit'>Add Expense</button>
-      </div>
-    </form>
+  const toggleShowExpense = () => {
+    return setShowExpenseForm((prevToggle) => {
+      return !prevToggle;
+    });
+  };
+
+  let toggleExpenseForm = (
+    <div className='new-expense__hide-form'>
+      <button onClick={toggleShowExpense}>Add Expense</button>
+    </div>
   );
+
+  if (showExpenseForm) {
+    toggleExpenseForm = (
+      <form onSubmit={submitHandler}>
+        <div className='new-expense__controls'>
+          <div className='new-expense__control'>
+            <label>Title</label>
+            <input
+              type='text'
+              onChange={titleChangeHandler}
+              value={entertedTitle}
+            />
+          </div>
+          <div className='new-expense__control'>
+            <label>Date</label>
+            <input
+              type='date'
+              min='2019-01-01'
+              max='2022-12-31'
+              value={entertedDate}
+              onChange={dateChangeHandler}
+            />
+          </div>
+          <div className='new-expense__control'>
+            <label>Amount</label>
+            <input
+              type='number'
+              min='0.01'
+              step='0.01'
+              value={entertedAmount}
+              onChange={amountChangeHandler}
+            />
+          </div>
+        </div>
+        <div className='new-expense__actions'>
+          <button onClick={toggleShowExpense}>Cancel</button>
+          <button type='submit'>Add Expense</button>
+        </div>
+      </form>
+    );
+  }
+
+  return <div>{toggleExpenseForm}</div>;
 };
 
 export default ExpenseForm;
