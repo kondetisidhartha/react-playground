@@ -1,4 +1,5 @@
-import ExpenseItem from './components/ExpenseItem';
+import React from 'react';
+import Expenses from './components/Expenses/Expenses';
 
 function App() {
   const expenses = [
@@ -26,18 +27,17 @@ function App() {
   return (
     <div>
       <h2>Let's get started!</h2>
-      {expenses.map((item) => {
-        return (
-          <ExpenseItem
-            id={item.id}
-            title={item.title}
-            amount={item.amount}
-            date={item.date}
-          />
-        );
-      })}
+      <Expenses expenses={expenses} />
     </div>
   );
+
+  // Before used to import React in all JS files so JSX gets converted to HTML and rendenered in browser.
+  // return React.createElement(
+  //   'div',
+  //   {},
+  //   React.createElement('h2', {}, "Let's get started!"),
+  //   React.createElement(Expenses, { expenses: expenses })
+  // );
 }
 
 export default App;
