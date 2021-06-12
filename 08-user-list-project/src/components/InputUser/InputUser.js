@@ -1,27 +1,39 @@
 import React, { useState } from 'react';
 import Button from '../../UI/Button/Button';
-import Modal from '../../UI/Modal/Modal';
+import ErrorModal from '../../UI/Modal/ErrorModal';
 import styles from './css/InputUser.module.css';
 
 const InputUser = (props) => {
   const [enteredUserName, setEnteredUserName] = useState('');
-  const [enteredAge, setEnteredAge] = useState();
-  const [isValid, setIsValid] = useState(true);
+  const [enteredAge, setEnteredAge] = useState('');
+  const [error, setError] = useState(null);
 
   const setEnteredUserNameHandler = (event) => {
-    setIsValid(true);
     setEnteredUserName(event.target.value);
   };
 
   const setEnteredAgeHandler = (event) => {
-    setIsValid(true);
     setEnteredAge(event.target.value);
   };
 
   const onFormSubmitHandler = (event) => {
     event.preventDefault();
-    if (enteredUserName.trim().length === 0 || enteredAge < 1) {
-      setIsValid(false);
+    if (enteredUserName.trim().length === 0) {
+      setError(() => {
+        return {
+          title: 'Invalid Name',
+          message: 'Name cannot be empty',
+        };
+      });
+      return;
+    }
+    if (+enteredAge < 1 || enteredAge.trim().length === 0) {
+      setError(() => {
+        return {
+          title: 'Invalid Age',
+          message: 'Age must be greater than 0',
+        };
+      });
       return;
     }
     const enteredUserDetails = {
@@ -35,17 +47,24 @@ const InputUser = (props) => {
   };
 
   const toggleModalHandler = () => {
-    setIsValid(true);
+    setError(null);
   };
 
   return (
     <div>
-      <Modal
+      {/* <Modal
         showModal={isValid}
         toggleModalHandler={toggleModalHandler}
         enteredUserName={enteredUserName}
         enteredAge={enteredAge}
-      />
+      /> */}
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onClick={toggleModalHandler}
+        />
+      )}
       <form className={styles['input-user']} onSubmit={onFormSubmitHandler}>
         <label>Username</label>
         <input

@@ -4,10 +4,7 @@ import InputUser from './components/InputUser/InputUser';
 import ListUser from './components/ListUser/ListUser';
 
 const App = () => {
-  const [userDetails, setUserDetails] = useState([
-    { name: 'Tester 1', age: '22', id: Math.random().toString() },
-    { name: 'Tester 2', age: '32', id: Math.random().toString() },
-  ]);
+  const [userDetails, setUserDetails] = useState([]);
 
   const onAddUserHandler = (enteredUserDetails) => {
     setUserDetails((prevDetails) => {
