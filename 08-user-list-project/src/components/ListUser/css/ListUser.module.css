@@ -1,0 +1,13 @@
+.list-user {
+  list-style: none;
+  border: 1px solid #ccc;
+  font: inherit;
+  padding: 0.5rem 0.5rem;
+  line-height: 1.5rem;
+  margin-bottom: 0.8rem;
+  border-radius: 5px;
+}
+
+.list-user span {
+  display: block;
+}
